@@ -1,0 +1,26 @@
+---
+
+# configure portage files
+
+- name: remove old package configuration files
+  become: yes
+  file: path="/etc/portage/{{ item.section }}/{{ item.file }}" state="absent"
+  with_items: "{{ portage_configuration }}"
+
+- name: write new package configuration files
+  become: yes
+  lineinfile: dest="/etc/portage/{{ item.0.section }}/{{ item.0.file}}" line="{{ item.1 }}" create=yes
+  with_subelements:
+    - "{{ portage_configuration }}"
+    - "entries"
+
+
+# emerge packages
+
+- name: emerge packages
+  become: yes
+  portage: package={{ item.package }}
+           state={{ item.state | default("emerged") }}
+           newuse={{ item.latest | default("yes") }}
+           update={{ item.latest | default("yes") }}
+  with_items: "{{ portage_packages }}"
