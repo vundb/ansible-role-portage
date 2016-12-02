@@ -6,6 +6,7 @@
   become: yes
   file: path="/etc/portage/{{ item.section }}/{{ item.file }}" state="absent"
   with_items: "{{ portage_configuration }}"
+  changed_when: false
 
 - name: write new package configuration files
   become: yes
@@ -13,6 +14,7 @@
   with_subelements:
     - "{{ portage_configuration }}"
     - "entries"
+  changed_when: false
 
 
 # emerge packages
