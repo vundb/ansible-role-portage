@@ -35,7 +35,7 @@ Example Playbook
         - section: 'package.use'
           file: 'dev-lang-php'
           entries:
-            - 'dev-lang-php gd'
+            - 'dev-lang/php gd'
         - section: 'package.accept_keywords'
           file: 'dev-lang-php'
           entries:
